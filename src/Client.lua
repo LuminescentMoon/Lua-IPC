@@ -1,22 +1,13 @@
 local LuaSocket, MessagePack, setInterval
 
-local function isConnected(socket)
-  return tostring(socket):find('connected') and true or false
-end
-
 local Client = {}
 
 function Client.listen(self, port)
-  if self.socket then Client.disconnect(self) end
   local socket = LuaSocket.udp()
   socket:setsockname('127.0.0.1', port)
   socket:settimeout(0)
   setInterval(Client._tick, self)
   self.socket = socket
-end
-
-function Client.from(self, port)
-
 end
 
 function Client.disconnect(self)
