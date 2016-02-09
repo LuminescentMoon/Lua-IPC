@@ -94,7 +94,8 @@ return function(currentDir)
 
   local G = {}
 
-  local console = require(currentDir .. '.lib.log')()
+  -- local console = require(currentDir .. '.lib.log')()
+  local console = {}
   local Error = require(currentDir .. '.src.Error')(util.inherits, G)
   local TypeError = require(currentDir .. '.src.TypeError')(util.inherits, Error, G)
   local RangeError = require(currentDir .. '.src.RangeError')(util.inherits, Error, TypeError, G)
