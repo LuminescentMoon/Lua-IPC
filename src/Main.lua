@@ -4,12 +4,16 @@ local IPC = {
   _VERSION = '0.0.1-EarlyAccess'
 }
 
-function IPC:setFilter(port)
+local function hasData(socket)
+  return LuaSocket.select({socket}, nil, 0)[1] == socket
+end
+
+function IPC.setFilter(self, port)
   local address = port == '*' and '*' or localhost
   return self.__socket:setpeername(address, port)
 end
 
-function IPC:after_init(port)
+function IPC.after_init(self, port)
   local socket, success, err
   socket, err = LuaSocket.udp()
   if socket == nil then return nil, err end
@@ -19,29 +23,30 @@ function IPC:after_init(port)
   if not success then return nil, err end
   socket:settimeout(0)
   self.__socket = socket
-  return success
+  return 1
 end
 
-function IPC:send(channel, ...)
+function IPC.send(self, channel, ...)
   if type(channel) == 'string' then
     local args = (...) and vararg.pack(...) or nil
     return self.__socket:send(MessagePack.pack({channel, args}))
   else
-    return nil, 'Channel must be a string.'
+    return nil, 'Channel (arg #1) must be a string.'
   end
 end
 
 function IPC:pump()
   local socket = self.__socket
-  while LuaSocket.select({socket}, nil, 0)[1] do
+  while hasData(socket) == true do
     local data
-    data = socket:receive(65507)
+    data = socket:receive(65507) -- UDP max datagram size taking protocol overheads into account.
     data = MessagePack.unpack(data)
     if type(data) == 'table' and type(data[1]) == 'string' then
       local args = type(data[2]) == 'table' and vararg.unpack(data[2]) or nil
       self:emit(data[1], args)
     end
   end
+  return 1
 end
 
 return function(currentDir)
