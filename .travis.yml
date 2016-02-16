@@ -1,0 +1,39 @@
+language: python
+sudo: false
+
+git:
+  depth: 4
+
+env:
+  - LUA_RUNTIME="lua"
+    LUA_VERSION="5.1"
+  - LUA_RUNTIME="luajit"
+    LUA_VERSION="2.0"
+  - LUA_RUNTIME="luajit"
+    LUA_VERSION="2.1"
+
+before_install:
+  - pip install hererocks
+  - hererocks lua_installations/$LUA_RUNTIME$LUA_VERSION/ --compat none --luarocks ^ --$LUA_RUNTIME $LUA_VERSION
+  - export PATH=$PATH:$PWD/lua_installations/$LUA_RUNTIME$LUA_VERSION/bin
+
+install:
+  - luarocks install luasocket
+  - luarocks make
+
+before_script:
+  - luarocks install busted
+  - luarocks install luacov-coveralls
+
+script:
+  - busted --output=TAP --coverage
+
+before_cache:
+  - luarocks remove --force Lua-IPC
+
+cache:
+  directories:
+    - $PWD/lua_installations/
+
+after_success:
+  - luacov-coveralls
