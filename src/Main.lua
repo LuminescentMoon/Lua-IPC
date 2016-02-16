@@ -35,7 +35,7 @@ function IPC.send(self, channel, ...)
   end
 end
 
-function IPC:pump()
+function IPC.pump(self)
   local socket = self.__socket
   while hasData(socket) == true do
     local data
