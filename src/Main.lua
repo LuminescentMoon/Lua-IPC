@@ -39,7 +39,7 @@ function IPC.pump(self)
   local socket = self.__socket
   while hasData(socket) == true do
     local data
-    data = socket:receive(65507) -- UDP max datagram size taking protocol overheads into account.
+    data = socket:receive(65507) -- UDP max datagram size over IPv4 taking protocol overheads into account.
     data = MessagePack.unpack(data)
     if type(data) == 'table' and type(data[1]) == 'string' then
       local args = type(data[2]) == 'table' and vararg.unpack(data[2]) or nil
