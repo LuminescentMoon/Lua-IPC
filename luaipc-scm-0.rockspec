@@ -1,5 +1,5 @@
 package = "Lua-IPC"
-version = "scm-1"
+version = "scm-0"
 
 source = {
   url = "https://github.com/Luminess/Lua-IPC"
