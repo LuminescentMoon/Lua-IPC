@@ -27,12 +27,9 @@ function IPC.after_init(self, port)
 end
 
 function IPC.send(self, channel, ...)
-  if type(channel) == 'string' then
-    local args = (...) and vararg.pack(...) or nil
-    return self.__socket:send(MessagePack.pack({channel, args}))
-  else
-    return nil, 'Channel (arg #1) must be a string.'
-  end
+  if type(channel) ~= 'string' then return nil, 'Channel (arg #1) must be a string.' end
+  local args = (...) and vararg.pack(...) or nil
+  return self.__socket:send(MessagePack.pack({channel, args}))
 end
 
 function IPC.pump(self)
@@ -42,8 +39,7 @@ function IPC.pump(self)
     data = socket:receive(65507) -- UDP max datagram size over IPv4 taking protocol overheads into account.
     data = MessagePack.unpack(data)
     if type(data) == 'table' and type(data[1]) == 'string' then
-      local args = type(data[2]) == 'table' and vararg.unpack(data[2]) or nil
-      self:emit(data[1], args)
+      self:emit(data[1], type(data[2]) == 'table' and vararg.unpack(data[2]) or nil)
     end
   end
   return 1
