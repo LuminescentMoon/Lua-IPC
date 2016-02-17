@@ -1,0 +1,13 @@
+-- @class ipc
+-- @name Lua-IPC
+return {
+  deletestats = true,
+  include = {
+    '/src'
+  },
+  coveralls = {
+    pathcorrect = {
+      {'^.-/share/lua/5.%d/', 'src/lua/'}
+    }
+  }
+}
