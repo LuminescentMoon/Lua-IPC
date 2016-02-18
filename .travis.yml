@@ -22,10 +22,12 @@ install:
   - luarocks make
 
 before_script:
+  - luarocks install luacheck
   - luarocks install busted
   - luarocks install luacov-coveralls
 
 script:
+  - luacheck --formatter=TAP --std=lua51 luaipc-scm-0.rockspec
   - busted --output=TAP --coverage
 
 before_cache:
