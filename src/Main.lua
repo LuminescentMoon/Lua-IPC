@@ -16,11 +16,11 @@ end
 function IPC.after_init(self, port)
   local socket, success, err
   socket, err = LuaSocket.udp()
-  if socket == nil then return nil, err end
+  if socket == nil then return nil, 'Failed to create UDP object. LuaSocket error: ' .. err end
   success, err = socket:setsockname(localhost, port)
-  if not success then return nil, err end
+  if not success then return nil, 'Failed to set socket address and port. LuaSocket error: ' .. err end
   success, err = socket:setoption('dontroute', true)
-  if not success then return nil, err end
+  if not success then return nil, 'Failed to disable packet routing. LuaSocket error: ' .. err end
   socket:settimeout(0)
   self.__socket = socket
   return 1
@@ -34,6 +34,7 @@ end
 
 function IPC.pump(self)
   local socket = self.__socket
+  if socket == nil then return nil, 'Socket has not been initialized.' end
   while hasData(socket) == true do
     local data
     data = socket:receive(65507) -- UDP max datagram size over IPv4 taking protocol overheads into account.
