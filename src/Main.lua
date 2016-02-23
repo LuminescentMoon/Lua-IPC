@@ -47,7 +47,8 @@ function IPC.pump(self)
 end
 
 return function(currentDir)
-  local G = require(currentDir .. '.lib.ev')(currentDir .. '.lib.ev')
+  currentDir = currentDir or ''
+  local G = require(currentDir .. '.lib.ev.init')(currentDir .. '.lib.ev')
   vararg = G.util.vararg
 
   LuaSocket = require('socket')
