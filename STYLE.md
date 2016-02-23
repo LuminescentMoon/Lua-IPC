@@ -4,13 +4,13 @@
 - Globals: Never.
 - Indentation: 2 spaces.
 
-### Naming
-- lowerCamelCase for methods (e.g. ```o:setProperty()```).
-- UpperCamelCase for objects.
+### Naming Variables
+- lowerCamelCase for methods, functions, and instantiated objects.
+- UpperCamelCase for classes.
 - ALL_CAPS with underscores as spaces for constants.
 - Classes that wrap an object should store the object under ```self.__<objectname>```
 
-## API Usage
+## Lua API Usage
 
 ##### Must target Lua 5.1's API
 It is the most widely used Lua version and LuaJIT has 100% API compatibility with it.
