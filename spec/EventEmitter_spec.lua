@@ -31,6 +31,29 @@ describe('Class: EventEmitter', function()
     end)
   end)
 
+  describe('Method: \':addListener\'', function()
+    it('should be an alias for the method \':on\'', function()
+      assert.are.equal(eventEmitter.on, eventEmitter.addListener)
+    end)
+  end)
+
+  describe('Method: \':emit\'', function()
+    pending('should call each listener registered to the specified event')
+    pending('should call each listener in the order they were registered')
+    pending('should pass the supplied arguments to each listener')
+    pending('should return true if event had listeners and false otherwise')
+  end)
+
+  describe('Method: \':listenerCount\'', function()
+    pending('should return the number of listeners listening to the specified event')
+  end)
+
+  describe('Method: \':listeners\'', function()
+    pending('should return a copy of the array of listeners registered for the specified event')
+  end)
+
+  describe('Method: \':emit\'')
+
   describe('Event: \'newListener\'', function()
     it('should be emitted on listener registration', function()
       local emitted = false
