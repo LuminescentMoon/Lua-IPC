@@ -2,26 +2,36 @@
 
 local EventEmitter = require('ipc').super
 
+local DUMMY_NUM = math.random(1, 1000)
 local DUMMY_STR = 'ayylmao'
 local NO_OP = function() end
 
 describe('Class: EventEmitter', function()
-  local eventEmitter
+  local eventEmitter, EventEmitters
 
   before_each(function()
     eventEmitter = EventEmitter()
   end)
+
+  local function resetEEArray()
+    EventEmitters = {}
+    for i = 1, 15 do
+      EventEmitter[i] = EventEmitter()
+    end
+  end
 
   describe('Max listeners limit behavior', function()
     it('.defaultMaxListeners should be inherited by individual EventEmitter instances', function()
       assert.are.equal(EventEmitter.defaultMaxListeners, eventEmitter:getMaxListeners())
     end)
     it('.defaultMaxListeners changes should be propogated to all EventEmitter instances', function()
+      resetEEArray()
       local function test()
         EventEmitter.defaultMaxListeners = math.random(1, 1000)
-        assert.are.equal(EventEmitter.defaultMaxListeners, eventEmitter:getMaxListeners())
+        for _, ee in ipairs(EventEmitters) do
+          assert.are.equal(EventEmitter.defaultMaxListeners, ee:getMaxListeners())
+        end
       end
-      test()
       test()
       test()
     end)
@@ -42,13 +52,24 @@ describe('Class: EventEmitter', function()
         end
         test()
         test()
-        test()
       end)
     end)
 
     describe('Method: \':setMaxListeners\'', function()
-      pending('should set the max listener value for the instance')
-      pending('should return the eventEmitter instance')
+      it('should set the max listener value for the instance', function()
+        resetEEArray()
+        local numbers = {}
+        for i = 1, #EventEmitters do
+          numbers[i] = math.random(1, 1000)
+          EventEmitters[i]:setMaxListeners(numbers[i])
+        end
+        for i = 1, #EventEmitters do
+          assert.are.equal(numbers[i], EventEmitter[i]:getMaxListeners())
+        end
+      end)
+      it('should return the eventEmitter instance', function()
+        assert.are.equal(eventEmitter, eventEmitter:setMaxListeners(DUMMY_NUM))
+      end)
     end)
   end)
 
