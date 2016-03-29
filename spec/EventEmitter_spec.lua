@@ -178,7 +178,7 @@ describe('Class: EventEmitter', function()
         assert.stub(listeners[i]).was.called(2)
       end
     end)
-    pending('should call each listener in the order they were registered', function()
+    it('should call each listener in the order they were registered', function()
       local order = 1
       local nums = {}
       for i = 1, ITERS do
@@ -211,7 +211,9 @@ describe('Class: EventEmitter', function()
   end)
 
   describe('Method: \':listenerCount\'', function()
-    pending('should return the number of listeners listening to the specified event')
+    it('should return the number of listeners listening to the specified event', function()
+
+    end)
   end)
 
   describe('Method: \':listeners\'', function()
