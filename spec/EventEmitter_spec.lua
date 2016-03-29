@@ -1,8 +1,7 @@
 -- luacheck: globals describe context insulate expose it spec test randomize before_each after_each lazy_setup lazy_teardown setup teardown strict_setup strict_teardown finally pending spy stub mock async
 
 local math = require('math')
-local stringExists = pcall(require, 'string')
-local coroutineExists = pcall(require, 'coroutine')
+local util = require('util')
 
 local EventEmitter = require('ipc').super
 
@@ -10,86 +9,6 @@ local DUMMY_NUM = math.random(1, 1000)
 local ITERS = 15
 local DUMMY_STR = 'ayylmao'
 local NO_OP = function() end
-
-local MKGARBAGE do
-  local FFACTORY, RBOOL, RNUM, RSTR, RCOROUTINE
-  function FFACTORY()
-    if RBOOL() then
-      return function() return MKGARBAGE(2) end
-    else
-      return function() return end
-    end
-  end
-  function RBOOL()
-    return math.random(0, 1) == 1
-  end
-  function RNUM()
-    return math.random(1, 1000)
-  end
-  function RSTR(len)
-    len = len >= 3 and len or 5
-    local string = string
-    local str = ''
-
-    if not stringExists then
-      string = {}
-      string.char = function() return 'W' end
-    end
-
-    for _ = 1, math.random(3, len) do
-      str = str .. string.char(math.random(32, 95))
-    end
-    return str
-  end
-  function RCOROUTINE()
-    local choice = math.random(1, 3)
-    local data
-
-    if choice == 1 then -- Dead coroutine
-      data = coroutine.resume(coroutine.create(FFACTORY()))
-    elseif choice == 2 then -- Suspended coroutine
-      data = coroutine.create(FFACTORY())
-    elseif choice == 3 then -- Infinitely suspended coroutine
-      data = coroutine.create(function(...)
-        while true do
-          coroutine.yield(...)
-        end
-      end)
-    end
-
-    return data
-  end
-
-  MKGARBAGE = function(len)
-    local garbage = {}
-    for idx = 1, len or ITERS do
-      local choice = math.random(1, 6)
-      local data
-
-      if choice == 1 then -- Nil
-        data = nil
-      elseif choice == 2 then -- Boolean
-        data = RBOOL()
-      elseif choice == 3 then -- Number
-        data = RNUM()
-      elseif choice == 4 then -- String
-        data = RSTR()
-      elseif choice == 5 then -- Table
-        data = MKGARBAGE(3) -- Array
-        for _, trash in ipairs(MKGARBAGE(3)) do
-          data[RSTR()] = trash -- Hashmap
-        end
-      elseif choice == 6 then
-        data = FFACTORY()
-      elseif choice == 7 and coroutineExists then -- Coroutine
-        data = RCOROUTINE()
-      end
-
-      garbage[idx] = data
-    end
-    return garbage
-  end
-end
 
 describe('Class: EventEmitter', function()
   local eventEmitter, EventEmitters
@@ -199,7 +118,7 @@ describe('Class: EventEmitter', function()
       end
       local function test()
         -- TODO
-        eventEmitter:emit(DUMMY_STR, MKGARBAGE(5))
+        eventEmitter:emit(DUMMY_STR, util.MKGARBAGE(5))
         for i = 1, #listeners do
           assert.stub(listeners[i]).was.called_with(DUMMY_NUM)
         end
