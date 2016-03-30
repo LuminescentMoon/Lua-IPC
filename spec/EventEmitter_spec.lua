@@ -135,16 +135,33 @@ describe('Class: EventEmitter', function()
 
   describe('Method: \':listenerCount\'', function()
     it('should return the number of listeners listening to the specified event', function()
-
+      for _ = 1, ITERS do
+        eventEmitter:on(DUMMY_STR, NO_OP)
+      end
+      assert.are.equal(ITERS, eventEmitter:listenerCount())
     end)
   end)
 
   describe('Method: \':listeners\'', function()
-    pending('should return a copy of the array of listeners registered for the specified event')
+    it('should return a copy of the array of listeners registered for the specified event', function()
+      local listeners = {}
+      for i = 1, ITERS do
+        local func = util.mkfunc()
+        listeners[i] = func
+        eventEmitter:on(DUMMY_STR, func)
+      end
+      assert.are_not.equal(eventEmitter._events[DUMMY_STR], eventEmitter:listeners())
+      for i, listener in ipairs(eventEmitter:listeners()) do
+        assert.are.equal(listeners[i], listener)
+      end
+    end)
   end)
 
   describe('Method: \':on\'', function()
-    pending('should register specified listener function with specified event')
+    it('should register specified listener function with specified event', function()
+      eventEmitter:on(DUMMY_STR, NO_OP)
+      assert.are.equal(NO_OP, eventEmitter._events[DUMMY_STR][1])
+    end)
     pending('should add listener to end of internal array of listeners for event')
     pending('should return self so calls can be chained')
   end)

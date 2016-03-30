@@ -4,6 +4,10 @@ local coroutineExists = pcall(require, 'coroutine')
 
 local util = {}
 
+util.mkfunc = function()
+  return function() return end
+end
+
 local mkgarbage = {}
 util.mkgarbage = mkgarbage
 
