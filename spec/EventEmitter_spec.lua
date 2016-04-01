@@ -162,7 +162,14 @@ describe('Class: EventEmitter', function()
       eventEmitter:on(DUMMY_STR, NO_OP)
       assert.are.equal(NO_OP, eventEmitter._events[DUMMY_STR][1])
     end)
-    pending('should add listener to end of internal array of listeners for event')
+    it('should add listener to end of internal array of listeners for event', function()
+      local func = util.mkfunc()
+      for i = 1, ITERS do
+        eventEmitter._events[DUMMY_STR][i] = NO_OP
+      end
+      eventEmitter:on(DUMMY_STR, func)
+      assert.are.equal(func, eventEmitter._events[DUMMY_STR][#eventEmitter._events[DUMMY_STR]])
+    end)
     pending('should return self so calls can be chained')
   end)
 
