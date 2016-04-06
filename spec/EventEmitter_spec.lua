@@ -191,9 +191,31 @@ describe('Class: EventEmitter', function()
   end)
 
   describe('Method: \':removeListener\'', function()
-    pending('should remove specified listener function from the specified event')
-    pending('should only at most remove one listener')
-    pending('should return self so calls can be chained')
+    it('should remove specified listener function from the specified event', function()
+      local func, flag
+      for _ = 1, ITERS do
+        func = util.mkfunc()
+        eventEmitter:on(DUMMY_STR, func)
+      end
+      func = function()
+        flag = true
+      end
+      eventEmitter:on(DUMMY_STR, func)
+      eventEmitter:removeListener(func)
+      eventEmitter:emit(DUMMY_STR)
+      assert.is_not_true(flag)
+    end)
+    it('should only at most remove one listener', function()
+      for _ = 1, ITERS do
+        eventEmitter:on(DUMMY_STR, NO_OP)
+      end
+      local amount = #eventEmitter:listeners(DUMMY_STR)
+      eventEmitter:removeListener(NO_OP)
+      assert.is_true(#eventEmitter:listeners(DUMMY_STR) + 1 == amount)
+    end)
+    it('should return self so calls can be chained', function()
+      assert.are.equal(eventEmitter, eventEmitter:removeListener(DUMMY_STR, NO_OP))
+    end)
   end)
 
   describe('Event: \'newListener\'', function()
