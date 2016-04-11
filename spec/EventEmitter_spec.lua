@@ -1,7 +1,7 @@
 -- luacheck: globals describe context insulate expose it spec test randomize before_each after_each lazy_setup lazy_teardown setup teardown strict_setup strict_teardown finally pending spy stub mock async
 
 local math = require('math')
-local util = require('util')
+local util = require('..spec.util')
 
 local EventEmitter = require('ipc').super
 
