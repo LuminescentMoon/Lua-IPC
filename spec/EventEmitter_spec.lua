@@ -3,7 +3,7 @@
 local math = require('math')
 local util = require('..spec.util')
 
-local EventEmitter = require('ipc').super
+local EventEmitter = require('ipc')().super
 
 local DUMMY_NUM = math.random(1, 1000)
 local ITERS = 15
