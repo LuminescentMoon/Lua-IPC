@@ -20,8 +20,6 @@ local function checkTypes(event, listener, ignoreListener)
   end
 end
 
-EventEmitter.addListener = EventEmitter.on
-
 function EventEmitter:removeListener(event, listener)
   checkTypes(event, listener)
   local events = self._events
@@ -79,6 +77,8 @@ function EventEmitter:on(event, listener)
   end
   return self
 end
+
+EventEmitter.addListener = EventEmitter.on
 
 function EventEmitter:once(event, listener)
   checkTypes(event, listener)
