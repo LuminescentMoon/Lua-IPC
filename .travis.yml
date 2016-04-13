@@ -5,10 +5,10 @@ git:
   depth: 4
 
 env:
-  - LUA_RUNTIME="lua"
-    LUA_VERSION="5.1"
-  - LUA_RUNTIME="luajit"
-    LUA_VERSION="2.0"
+#  - LUA_RUNTIME="lua"
+#    LUA_VERSION="5.1"
+#  - LUA_RUNTIME="luajit"
+#    LUA_VERSION="2.0"
   - LUA_RUNTIME="luajit"
     LUA_VERSION="2.1"
 
