@@ -118,7 +118,7 @@ describe('Class: EventEmitter', function()
       end
       local function test()
         -- TODO
-        eventEmitter:emit(DUMMY_STR, util.MKGARBAGE(5))
+        eventEmitter:emit(DUMMY_STR, util.mkgarbage(5))
         for i = 1, #listeners do
           assert.stub(listeners[i]).was.called_with(DUMMY_NUM)
         end
