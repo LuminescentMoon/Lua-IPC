@@ -27,7 +27,7 @@ before_script:
   - luarocks install luacov-coveralls
 
 script:
-  - luacheck --formatter=TAP --std=lua51 luaipc-scm-0.rockspec
+  - luacheck --formatter=TAP --std=lua51 lua-ipc-scm-0.rockspec
   - busted --output=TAP --coverage
 
 before_cache:
