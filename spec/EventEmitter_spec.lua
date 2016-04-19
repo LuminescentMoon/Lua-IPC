@@ -117,10 +117,10 @@ describe('Class: EventEmitter', function()
         eventEmitter:on(DUMMY_STR, func)
       end
       local function test()
-        -- TODO
-        eventEmitter:emit(DUMMY_STR, util.mkgarbage(5))
+        local garbage = util.mkgarbage(5)
+        eventEmitter:emit(DUMMY_STR, garbage)
         for i = 1, #listeners do
-          assert.stub(listeners[i]).was.called_with(DUMMY_NUM)
+          assert.stub(listeners[i]).was.called_with(garbage) -- TODO: Deep compare table
         end
       end
       test()
