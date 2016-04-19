@@ -63,11 +63,9 @@ mkgarbage.RCOROUTINE = function()
 end
 
 setmetatable(mkgarbage, {
-  __call = function(len)
+  __call = function(_, len)
     local garbage = {}
-    local max = len or math.random(10, 20)
-    print('max: ' .. type(max))
-    for idx = 1, max do
+    for idx = 1, len or math.random(10, 20) do
       local choice = math.random(1, 6)
       local data
 
