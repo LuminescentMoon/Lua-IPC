@@ -65,7 +65,9 @@ end
 setmetatable(mkgarbage, {
   __call = function(len)
     local garbage = {}
-    for idx = 1, len or math.random(10, 20) do
+    local max = len or math.random(10, 20)
+    print('max: ' .. type(max))
+    for idx = 1, max do
       local choice = math.random(1, 6)
       local data
 
