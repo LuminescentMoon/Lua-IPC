@@ -77,7 +77,7 @@ mkgarbage.RNUM = function()
 end
 
 mkgarbage.RSTR = function(len)
-  len = len >= 3 and len or 5
+  len = len and len >= 3 or 5
   local string = string
   local str = ''
 
