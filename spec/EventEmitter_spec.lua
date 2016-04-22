@@ -138,7 +138,7 @@ describe('Class: EventEmitter', function()
       for _ = 1, ITERS do
         eventEmitter:on(DUMMY_STR, NO_OP)
       end
-      assert.are.equal(ITERS, eventEmitter:listenerCount())
+      assert.are.equal(ITERS, eventEmitter:listenerCount(DUMMY_STR))
     end)
   end)
 
