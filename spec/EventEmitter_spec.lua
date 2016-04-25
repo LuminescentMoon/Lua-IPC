@@ -85,6 +85,7 @@ describe('Class: EventEmitter', function()
 
   describe('Method: \':emit\'', function()
     it('should call each listener registered to the specified event', function()
+      eventEmitter:setMaxListeners(ITERS)
       local listeners = {}
       for i = 1, ITERS do
         local func = stub()
