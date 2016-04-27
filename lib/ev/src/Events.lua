@@ -100,8 +100,10 @@ end
 function EventEmitter:listeners(event)
   checkTypes(event, nil, true)
   local copy = {}
-  for i, listener in ipairs(self._events[event]) do
-    copy[i] = listener
+  if self._events[event] ~= nil then
+    for i, listener in ipairs(self._events[event]) do
+      copy[i] = listener
+    end
   end
   return copy
 end
