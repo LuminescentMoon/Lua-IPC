@@ -13,7 +13,7 @@ local function checkTypes(event, listener, ignoreListener)
   if not (type(event) == 'string' or type(event) == 'table') then
     TypeError(3, 'event', {'string', 'table'}, event)
   end
-  if not ignoreListener and  listener ~= nil then
+  if not ignoreListener and listener ~= nil then
     if not type(listener) == 'function' or not (type(listener) == 'table' and type(getmetatable(listener).__call) == 'function') then
       TypeError(3, 'listener', 'callable', listener)
     end
