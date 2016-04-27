@@ -34,7 +34,7 @@ function EventEmitter:removeListener(event, listener)
     return self
   end
   for i, currlistener in ipairs(registry) do
-    if currlistener == listener then
+    if currlistener == listener or type(currlistener) == 'table' and currlistener.func == listener then
       table.remove(registry, i)
       if #registry == 0 then -- Remove event's listener array if there's no more listeners.
         events[event] = nil
