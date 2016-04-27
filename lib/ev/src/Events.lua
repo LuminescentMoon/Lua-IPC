@@ -62,7 +62,7 @@ function EventEmitter:emit(event, ...)
     if not success then
       Error(err)
     end
-    if type(listener) == 'table' then
+    if type(listener) == 'table' then -- If listener is a callback registered using the :once method.
       self:removeListener(listener)
     end
   end
