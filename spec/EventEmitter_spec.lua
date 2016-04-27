@@ -151,8 +151,8 @@ describe('Class: EventEmitter', function()
         listeners[i] = func
         eventEmitter:on(DUMMY_STR, func)
       end
-      assert.are_not.equal(eventEmitter._events[DUMMY_STR], eventEmitter:listeners())
-      for i, listener in ipairs(eventEmitter:listeners()) do
+      assert.are_not.equal(eventEmitter._events[DUMMY_STR], eventEmitter:listeners(DUMMY_STR))
+      for i, listener in ipairs(eventEmitter:listeners(DUMMY_STR)) do
         assert.are.equal(listeners[i], listener)
       end
     end)
