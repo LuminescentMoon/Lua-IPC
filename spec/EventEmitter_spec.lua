@@ -164,6 +164,7 @@ describe('Class: EventEmitter', function()
       assert.are.equal(NO_OP, eventEmitter._events[DUMMY_STR][1])
     end)
     it('should add listener to end of internal array of listeners for event', function()
+      eventEmitter._events[DUMMY_STR] = {}
       local func = util.mkfunc()
       for i = 1, ITERS do
         eventEmitter._events[DUMMY_STR][i] = NO_OP
