@@ -9,7 +9,7 @@ local function hasData(socket)
 end
 
 function IPC.setFilter(self, port)
-  local address = port == '*' and '*' or localhost
+  local address = port == '*' and port or localhost
   return self.__socket:setpeername(address, port)
 end
 
