@@ -9,6 +9,12 @@ function EventEmitter:init(...)
   return ...
 end
 
+local callbackMT = {}
+
+callbackMT.__call = function(wrapper, ...)
+  return wrapper.func(...)
+end
+
 local function checkTypes(event, listener, ignoreListener)
   if not (type(event) == 'string' or type(event) == 'table') then
     TypeError(3, 'event', {'string', 'table'}, event)
@@ -56,6 +62,9 @@ function EventEmitter:emit(event, ...)
     if not success then
       Error(err)
     end
+    if type(listener) == 'table' then
+      self:removeListener(listener)
+    end
   end
   return true
 end
@@ -83,10 +92,9 @@ EventEmitter.addListener = EventEmitter.on
 function EventEmitter:once(event, listener)
   checkTypes(event, listener)
   local wrapper
-  wrapper = function(...)
-    listener(...)
-    self:removeListener(event, wrapper)
-  end
+  wrapper = {}
+  wrapper.func = listener
+  setmetatable(wrapper, callbackMT)
   self:on(event, wrapper)
   return self
 end
