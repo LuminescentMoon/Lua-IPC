@@ -28,15 +28,12 @@ end
 
 function EventEmitter:removeListener(event, listener)
   checkTypes(event, listener)
-  print(':removeListener called')
   local events = self._events
   local registry = events[event]
   if registry == nil then -- No listeners registered for event.
     return self
   end
-  print('Looking for:', listener)
   for i, currlistener in ipairs(registry) do
-    print('at:', listener)
     if currlistener == listener or type(currlistener) == 'table' and currlistener.func == listener then
       table.remove(registry, i)
       if #registry == 0 then -- Remove event's listener array if there's no more listeners.
@@ -66,8 +63,7 @@ function EventEmitter:emit(event, ...)
       Error(err)
     end
     if type(listener) == 'table' and getmetatable(listener) == callbackMT then -- If listener is a callback registered using the :once method.
-      print('Removing listener:', listener)
-      self:removeListener(listener)
+      self:removeListener(event, listener)
     end
   end
   return true
