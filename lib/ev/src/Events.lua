@@ -62,7 +62,8 @@ function EventEmitter:emit(event, ...)
     if not success then
       Error(err)
     end
-    if type(listener) == 'table' then -- If listener is a callback registered using the :once method.
+    if type(listener) == 'table' and getmetatable(listener) == callbackMT then -- If listener is a callback registered using the :once method.
+      print('removing listener:', listener)
       self:removeListener(listener)
     end
   end
