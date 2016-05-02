@@ -194,7 +194,7 @@ describe('Class: EventEmitter', function()
 
   describe('Method: \':removeListener\'', function()
     it('should remove specified listener function from the specified event', function()
-      local func, flag
+      local flag, func = false
       for _ = 1, ITERS do
         func = util.mkfunc()
         eventEmitter:on(DUMMY_STR, func)
