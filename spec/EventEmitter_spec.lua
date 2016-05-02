@@ -203,6 +203,10 @@ describe('Class: EventEmitter', function()
         flag = true
       end
       eventEmitter:on(DUMMY_STR, func)
+      eventEmitter:on('removeListener', function(event, listener)
+        assert.are.equal(DUMMY_STR, event)
+        assert.are.equal(func, listener)
+      end)
       eventEmitter:removeListener(func)
       eventEmitter:emit(DUMMY_STR)
       assert.is_not_true(flag)
