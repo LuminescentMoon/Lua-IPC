@@ -194,22 +194,24 @@ describe('Class: EventEmitter', function()
 
   describe('Method: \':removeListener\'', function()
     it('should remove specified listener function from the specified event', function()
-      local flag, func = false
+      local emitted, evcalled, func = false, false
       for _ = 1, ITERS do
         func = util.mkfunc()
         eventEmitter:on(DUMMY_STR, func)
       end
       func = function()
-        flag = true
+        emitted = true
       end
       eventEmitter:on(DUMMY_STR, func)
       eventEmitter:on('removeListener', function(event, listener)
         assert.are.equal(DUMMY_STR, event)
         assert.are.equal(func, listener)
+        evcalled = true
       end)
       eventEmitter:removeListener(func)
+      assert.is_true(evcalled)
       eventEmitter:emit(DUMMY_STR)
-      assert.is_not_true(flag)
+      assert.is_not_true(emitted)
     end)
     it('should only at most remove one listener', function()
       for _ = 1, ITERS do
