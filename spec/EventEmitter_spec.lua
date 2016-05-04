@@ -208,7 +208,7 @@ describe('Class: EventEmitter', function()
         assert.are.equal(func, listener)
         evcalled = true
       end)
-      eventEmitter:removeListener(func)
+      eventEmitter:removeListener(DUMMY_STR, func)
       assert.is_true(evcalled)
       eventEmitter:emit(DUMMY_STR)
       assert.is_not_true(emitted)
