@@ -218,7 +218,7 @@ describe('Class: EventEmitter', function()
         eventEmitter:on(DUMMY_STR, NO_OP)
       end
       local amount = #eventEmitter:listeners(DUMMY_STR)
-      eventEmitter:removeListener(NO_OP)
+      eventEmitter:removeListener(DUMMY_STR, NO_OP)
       assert.is_true(#eventEmitter:listeners(DUMMY_STR) + 1 == amount)
     end)
     it('should return self so calls can be chained', function()
