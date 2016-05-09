@@ -228,12 +228,16 @@ describe('Class: EventEmitter', function()
 
   describe('Event: \'newListener\'', function()
     it('should be emitted on listener registration', function()
-      local emitted = false
+      local emitted1, emitted2 = false, false
       eventEmitter:on(DUMMY_STR, function()
-        emitted = true
+        emitted1 = true
+      end)
+      eventEmitter:once(DUMMY_STR, function()
+        emitted2 = true
       end)
       eventEmitter:emit(DUMMY_STR)
-      assert.is_true(emitted)
+      assert.is_true(emitted1)
+      assert.is_true(emitted2)
     end)
 
     it('should be emitted before listener is added', function()
