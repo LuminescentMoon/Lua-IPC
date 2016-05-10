@@ -10,6 +10,8 @@ local ITERS = 15
 local DUMMY_STR = 'ayylmao'
 local NO_OP = function() end
 
+assert:set_parameter('TableFormatLevel', -1)
+
 describe('Class: EventEmitter', function()
   local eventEmitter, EventEmitters
 
