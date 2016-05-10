@@ -72,12 +72,7 @@ end
 function EventEmitter:on(event, listener)
   checkTypes(event, listener)
   local events = self._events
-  if not events[event] then
-    events[event] = {}
-  end
-  local registry = events[event]
 
-  print(events.newListener)
   if events.newListener then -- https://nodejs.org/api/events.html#events_event_newlistener
     print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW')
     if type(listener == 'table') and getmetatable(listener) == callbackMT then
@@ -87,6 +82,11 @@ function EventEmitter:on(event, listener)
       self:emit('newListener', event, listener)
     end
   end
+
+  if not events[event] then
+    events[event] = {}
+  end
+  local registry = events[event]
   table.insert(registry, listener)
   if #registry > self:getMaxListeners() then
     console.warn('Event "' .. event .. '" listener count exceeds max limit. Possible memory leak.')
