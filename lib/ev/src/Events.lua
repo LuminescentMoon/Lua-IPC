@@ -74,7 +74,6 @@ function EventEmitter:on(event, listener)
   local events = self._events
 
   if events.newListener then -- https://nodejs.org/api/events.html#events_event_newlistener
-    print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW')
     if type(listener == 'table') and getmetatable(listener) == callbackMT then
       self:emit('newListener', event, listener.func)
     else
